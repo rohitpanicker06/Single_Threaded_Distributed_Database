@@ -1,4 +1,4 @@
-package constants.commands;
+package commands;
 
 public class CommandInvoker {
 

@@ -1,8 +1,8 @@
 import constants.Constants;
-import constants.commands.Command;
-import constants.commands.CommandInvoker;
-import constants.commands.Ping;
-import constants.commands.PingReceiver;
+import commands.Command;
+import commands.CommandInvoker;
+import commands.Ping;
+import commands.PingReceiver;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,18 +12,25 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class RedisServer {
+    private static ServerSocket serverSocket = null;
+    private static void  initServer() throws IOException {
+        serverSocket = new ServerSocket(Constants.REDIS_SERVER_PORT);
+        serverSocket.setReuseAddress(true);
+    }
 
-    public static void main(String[] args) {
+    private static void initEventLoop()
+    {
 
-        ServerSocket serverSocket = null;
+    }
+
+    public static void main(String[] args) throws IOException {
+
+        initServer();
+        initEventLoop();
+
         Socket clientSocket = null;
-        PingReceiver pingReceiver = new PingReceiver();
-        Command pingCommand  = new Ping(pingReceiver);
-        CommandInvoker invoker = new CommandInvoker();
-        invoker.setCommand(pingCommand);
+
         try {
-            serverSocket = new ServerSocket(Constants.REDIS_SERVER_PORT);
-            serverSocket.setReuseAddress(true);
             clientSocket = serverSocket.accept();
 
             PrintWriter printWriter = new PrintWriter(clientSocket.getOutputStream());
@@ -34,11 +41,10 @@ public class RedisServer {
             while((inputLine = in.readLine()) != null)
             {
                 if (!inputLine.matches("^[*$].*")) {
-                    printWriter.print(invoker.execute());
+//                    printWriter.print(invoker.execute());
                     printWriter.flush();
                 }
             }
-
         } catch (IOException e) {
             System.out.println("IOException: " + e.getMessage());
         } finally {
