@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 
 public final class EventManager<T> {
 
-    private final EventSourceIF<String> eventSource;
-    private final EventLoopIF<String> eventLoop;
+    private final EventSourceIF<String> eventSource; // adding eventListners
+    private final EventLoopIF<String> eventLoop; // actual event loop interface that starts the single threaded event loop
     private static final Logger log = LoggerFactory.getLogger(EventManager.class);
 
 

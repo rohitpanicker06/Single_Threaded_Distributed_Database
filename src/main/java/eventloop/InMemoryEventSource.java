@@ -3,6 +3,7 @@ package eventloop;
 import eventloop.interfaces.EventListenerIF;
 import eventloop.interfaces.EventSourceIF;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,12 @@ public final class InMemoryEventSource<T> implements EventSourceIF<T> {
     @Override
     public void broadcast(final EventMessage<T> message) {
         if (message.hasError()) this.listeners.forEach(listener -> listener.onError(message));
-        this.listeners.forEach(listener -> listener.onMessage(message));
+        this.listeners.forEach(listener -> {
+            try {
+                listener.onMessage(message);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 }
