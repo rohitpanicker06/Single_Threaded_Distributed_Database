@@ -12,9 +12,9 @@ import java.net.Socket;
 public class ResponseListeners implements EventListenerIF<String> {
     @Override
     public void onMessage(EventMessage<String> message) throws IOException {
-    String eventMessage = message.getMessage();
+    String commandArray[] = message.getMessage().split(" ");
     CommandInvoker invoker = new CommandInvoker();
-    invoker.setCommand(CommandFactory.getCommand(eventMessage));
+    invoker.setCommand(CommandFactory.getCommand(commandArray));
     String result = invoker.execute();
     sendResponse(result, message.getSource());
     }
