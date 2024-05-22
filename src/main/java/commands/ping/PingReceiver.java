@@ -1,4 +1,4 @@
-package commands;
+package commands.ping;
 
 public class PingReceiver {
 

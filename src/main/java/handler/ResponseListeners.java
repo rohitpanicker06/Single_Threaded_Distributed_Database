@@ -1,7 +1,7 @@
 package handler;
 
-import commands.CommandFactory;
 import commands.CommandInvoker;
+import commands.factory.CommandFactory;
 import eventloop.EventMessage;
 import eventloop.interfaces.EventListenerIF;
 

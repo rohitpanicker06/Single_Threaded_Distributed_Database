@@ -1,4 +1,4 @@
-package commands;
+package commands.echo;
 
 public class EchoReceiver {
     private final String message;

@@ -1,6 +1,8 @@
-package commands;
+package commands.ping;
 
-public class Ping implements Command{
+import commands.Command;
+
+public class Ping implements Command {
   PingReceiver pingReceiver;
 
 

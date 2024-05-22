@@ -1,7 +1,9 @@
-package commands;
+package commands.echo;
 
 
-public class Echo implements Command{
+import commands.Command;
+
+public class Echo implements Command {
     EchoReceiver echoReceiver;
 
 
