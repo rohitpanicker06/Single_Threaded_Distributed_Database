@@ -14,7 +14,11 @@ public class GetReceiver {
 
     public String execute()
     {
-        String value = KeyValueStore.keyValueStore.get(key);
+        String value = KeyValueStore.getInstance().get(key);
+        if(value == null)
+        {
+            return "$-1\r\n";
+        }
         return "$"+ value.length()+"\r\n"+value+"\r\n";
     }
 }

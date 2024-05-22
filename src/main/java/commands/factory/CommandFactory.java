@@ -10,6 +10,8 @@ import commands.setAndGet.GetReceiver;
 import commands.setAndGet.Set;
 import commands.setAndGet.SetReceiver;
 
+import java.util.Arrays;
+
 public class CommandFactory {
 
     public static Command getCommand(String [] commandArray) {
@@ -22,7 +24,14 @@ public class CommandFactory {
             return new Echo(echoReceiver);
         }else if(commandArray[0].equalsIgnoreCase("SET"))
         {
-            SetReceiver setGetReceiver = new SetReceiver(commandArray[1], commandArray[2]);
+            SetReceiver setGetReceiver;
+
+            if(Arrays.stream(commandArray).anyMatch(v-> v.equalsIgnoreCase("px")))
+            {
+                setGetReceiver = new SetReceiver(commandArray, true);
+            }else {
+                setGetReceiver = new SetReceiver(commandArray);
+            }
             return new Set(setGetReceiver);
         }else if(commandArray[0].equalsIgnoreCase("GET"))
         {
