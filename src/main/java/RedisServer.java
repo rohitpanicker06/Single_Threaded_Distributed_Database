@@ -1,24 +1,17 @@
-import commands.*;
 import constants.Constants;
 import eventloop.EventManager;
-import eventloop.EventMessage;
-import eventloop.InMemoryEventSource;
-import eventloop.SingleThreadEventLoop;
 import eventloop.interfaces.EventListenerIF;
-import eventloop.interfaces.EventSourceIF;
 import handler.ClientHandler;
 import handler.ResponseListeners;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RedisServer {
     private static ServerSocket serverSocket = null;
@@ -26,8 +19,8 @@ public class RedisServer {
     private static final ExecutorService threadPool = Executors.newFixedThreadPool(10); // You can adjust the pool size as needed
 
     private static final Logger log = LoggerFactory.getLogger(RedisServer.class);
-    private static void  initServer() throws IOException {
-        serverSocket = new ServerSocket(Constants.REDIS_SERVER_PORT);
+    private static void  initServer(Integer port) throws IOException {
+        serverSocket = new ServerSocket(Objects.requireNonNullElseGet(port, () -> Constants.REDIS_SERVER_PORT));
         serverSocket.setReuseAddress(true);
     }
 
@@ -42,15 +35,21 @@ public class RedisServer {
         eventManager.addListener(eventLoopEventListener);
     }
 
-    private static void initSubSystems() throws IOException {
-        initServer();
+    private static void initSubSystems(Integer port) throws IOException {
+        initServer(port);
         initEventLoop();
         registerEventListeners();
     }
 
     public static void main(String[] args) throws IOException {
+        Integer port = null;
+        if(args.length >1)
+        {
+            port = Integer.parseInt(args[1]);
+        }
 
-        initSubSystems();
+        initSubSystems(port);
+
         Socket clientSocket = null;
 
         while (true) {
