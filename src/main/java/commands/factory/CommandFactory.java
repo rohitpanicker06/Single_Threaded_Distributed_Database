@@ -3,6 +3,8 @@ package commands.factory;
 import commands.Command;
 import commands.echo.Echo;
 import commands.echo.EchoReceiver;
+import commands.info.Info;
+import commands.info.InfoReceiver;
 import commands.ping.Ping;
 import commands.ping.PingReceiver;
 import commands.setAndGet.Get;
@@ -37,6 +39,10 @@ public class CommandFactory {
         {
             GetReceiver getReceiver = new GetReceiver(commandArray[1]);
             return new Get(getReceiver);
+        }else if(commandArray[0].equalsIgnoreCase("INFO"))
+        {
+            InfoReceiver infoReceiver = new InfoReceiver();
+            return new Info(infoReceiver);
         }
         else {
 
